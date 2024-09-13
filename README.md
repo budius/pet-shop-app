@@ -18,7 +18,7 @@ one here.
 
 ## Architecture
 
-It all starts with a pretty standard architecture.
+It all starts with a pretty standard unidirectional data flow (UDF) architecture.
 
 - Data sources area separated into services
 - Repositories manage different data sources and provide domain data to the UI
