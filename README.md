@@ -25,7 +25,7 @@ It all starts with a pretty standard architecture.
 - ViewModels implements the logic by managing the UI state and evens
 - View draw the state to the screen without question its origin
 
-![](/home/ronaldo/AndroidStudioProjects/sample/docs/app-arch-diagram.png)
+![](docs/app-arch-diagram.png)
 
 ## Gradle modules
 
