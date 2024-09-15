@@ -39,22 +39,25 @@ class PetDaoTest {
     @Test
     fun should_return_all_the_data() = runBlocking {
         // given
-        dao.insert(testData)
+        dao.insert(testData.shuffled())
 
         // when
         val result = dao.getAll().first()
+        val raw = dao.getWithFilters().first()
 
         // then
         assertThat(result).isEqualTo(testData.sortedBy { it.priority })
+        assertThat(result).isEqualTo(raw)
     }
 
     @Test
     fun should_return_all_the_dogs() = runBlocking {
         // given
-        dao.insert(testData)
+        dao.insert(testData.shuffled())
 
         // when
         val result = dao.getByType(PetEntityType.Dog).first()
+        val raw = dao.getWithFilters(PetEntityType.Dog).first()
 
         // then
         assertThat(result).isEqualTo(
@@ -62,36 +65,41 @@ class PetDaoTest {
                 .filter { it.type == PetEntityType.Dog }
                 .sortedBy { it.priority }
         )
+        assertThat(result).isEqualTo(raw)
     }
 
     @Test
     fun should_return_all_the_cats() = runBlocking {
         // given
-        dao.insert(testData)
+        dao.insert(testData.shuffled())
 
         // when
         val result = dao.getByType(PetEntityType.Cat).first()
+        val raw = dao.getWithFilters(PetEntityType.Cat).first()
 
         // then
         assertThat(result).isEqualTo(testData.filter { it.type == PetEntityType.Cat })
+        assertThat(result).isEqualTo(raw)
     }
 
     @Test
     fun should_return_the_turtle() = runBlocking {
         // given
-        dao.insert(testData)
+        dao.insert(testData.shuffled())
 
         // when
         val result = dao.getByType(PetEntityType.Turtle).first()
+        val raw = dao.getWithFilters(PetEntityType.Turtle).first()
 
         // then
         assertThat(result).isEqualTo(listOf(testData[4]))
+        assertThat(result).isEqualTo(raw)
     }
 
     @Test
     fun should_return_younger_pets() = runBlocking {
         // given
-        dao.insert(testData)
+        dao.insert(testData.shuffled())
 
         // when
         val result = dao.internalGetBornAfter(35).first()
@@ -107,13 +115,66 @@ class PetDaoTest {
         val input = testData.map {
             it.copy(dateOfBirth = (now - it.dateOfBirth.days).toEpochMilliseconds())
         }
-        dao.insert(input)
+        dao.insert(input.shuffled())
 
         // when
         val result = dao.getYoungerThan(35.days).first()
+        val raw = dao.getWithFilters(maxAge = 35.days).first()
 
         // then
         assertThat(result).isEqualTo(input.take(3).sortedBy { it.priority })
+        assertThat(result).isEqualTo(raw)
+    }
+
+
+    @Test
+    fun should_return_cheaper_pets() = runBlocking {
+        // given
+        dao.insert(testData.shuffled())
+
+        // when
+        val result = dao.getWithFilters(maxPrice = 350).first()
+
+        // then
+        assertThat(result)
+            .isEqualTo(listOf(testData[0], testData[1], testData[2]).sortedBy { it.priority })
+    }
+
+    @Test
+    fun should_return_younger_cats() = runBlocking {
+        // given
+        val now = Clock.System.now()
+        val input = testData.map {
+            it.copy(dateOfBirth = (now - it.dateOfBirth.days).toEpochMilliseconds())
+        }
+        dao.insert(input.shuffled())
+
+        // when
+        val result = dao.getWithFilters(type = PetEntityType.Cat, maxAge = 35.days).first()
+
+        // then
+        assertThat(result).isEqualTo(listOf(input[2]))
+    }
+
+    @Test
+    fun should_return_young_cheap_turtles() = runBlocking {
+        // given
+        val now = Clock.System.now()
+        val input = testData.map {
+            it.copy(
+                dateOfBirth = (now - it.dateOfBirth.days).toEpochMilliseconds(),
+                type = if (it.type == PetEntityType.Dog) PetEntityType.Turtle else it.type
+            )
+        }
+        dao.insert(input.shuffled())
+
+        // when
+        val result =
+            dao.getWithFilters(type = PetEntityType.Turtle, maxAge = 15.days, maxPrice = 450)
+                .first()
+
+        // then
+        assertThat(result).isEqualTo(listOf(input[0]))
     }
 
 }

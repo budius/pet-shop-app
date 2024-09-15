@@ -15,7 +15,7 @@ import com.ronaldo.pace.services.database.pet.models.PetEntity
         CartInputEntity::class,
     ],
 )
-internal abstract class PetStoreDatabase : RoomDatabase() {
+abstract class PetStoreDatabase : RoomDatabase() {
     abstract fun cartDao(): CartDao
     abstract fun petDao(): PetDao
 }

@@ -14,7 +14,7 @@ import kotlinx.datetime.Instant
 import org.junit.Test
 import kotlin.time.Duration.Companion.days
 
-class PetsQueryRepositoryTest {
+class PetsQueryRepositoryV1Test {
 
     @Test
     fun `should return all pets`() = runBlocking {
@@ -138,7 +138,7 @@ private fun createSut(
     getPetsFlow: GetFlowOfPets = { flowOf(listOf(e1, e2, e3)) },
     getFlowOfPetsByType: GetFlowOfPetsByType = { flowOf(listOf(e2)) },
     getFlowOfPetsMaxAgeDays: GetFlowOfPetsMaxAgeDays = { flowOf(listOf(e2, e3)) }
-) = PetsQueryRepository(
+) = PetsQueryRepositoryV1(
     getPetsFlow = getPetsFlow,
     getPetsFlowByType = getFlowOfPetsByType,
     getPetsFlowMaxAgeDays = getFlowOfPetsMaxAgeDays
