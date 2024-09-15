@@ -121,6 +121,27 @@ mind this extract from the docs:
 > If you know the query at compile time, you should always prefer Query since it validates the
 > query at compile time and also generates more efficient code
 
+**Update:**
+
+I did the comparison and the results are in. We had a **very** clear winner!
+
+It were inserted 100.000 records in the DB and for each repo implementation a query for repeated R
+number of types for F amount of filters. I would imagine it takes more memory due to keep all the
+table in memory and filtering via Flow but the speed difference is massive.
+
+| # of filters | # of repeats | SQL Raw Query | Kotlin FLow |
+|--------------|--------------|---------------|-------------|
+| 5            | 5            | 2.4s          | 86ms        |
+| 10           | 10           | 6.s           | 61ms        |
+| 25           | 25           | 27.4s         | 426ms       |
+| 50           | 50           | 1m26s         | 942ms       |
+| 1            | 1000         | 32.8s         | 4.0s        |
+| 1000         | 3            | 1m54s         | 592ms       |
+
+Tests were run on a real device (Google Pixel 6) and the code for it can be found on the
+branch `repo_performance_test`. It's a somehow messy code (e.g. PetStoreDatabase had to be made
+public and not all tests were written) but it's there saved in the branch.
+
 ### Data invalidation and refresh
 
 As it was said [by smart people again and again](https://martinfowler.com/bliki/TwoHardThings.html)
