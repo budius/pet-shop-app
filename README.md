@@ -1,4 +1,5 @@
 # An Android Sample App
+
 ## the Pet Shop App
 
 ( **...work in progress...** )
@@ -61,6 +62,16 @@ ViewModel is not structured with a testability in mind. Also simple techniques s
 right test dispatcher, constructor injection of `CoroutineScope`, usage of `awaitingCancellation()`
 makes the "load on an `init{}` block" approach perfectly testable while keeping the implementation
 uncomplicated.
+
+##### What happens after the reality of implementation
+
+It's interesting how the ideas morph when the reality of implementation happens. In my current
+project I work mostly with fresh data directly from backend services and I stand by the approach
+first proposed for the ViewModel data loading. In this project, when adding the SQL caching layer,
+things changed and more analise is needed.
+
+I'll start by re-implementing the SQL as
+per [issue #3](https://github.com/budius/pet-shop-app/issues/3), and afterward come back to this.
 
 ### I18n
 
