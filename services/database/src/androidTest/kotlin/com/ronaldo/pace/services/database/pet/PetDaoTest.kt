@@ -10,12 +10,10 @@ import com.ronaldo.pace.services.database.pet.models.PetEntity
 import com.ronaldo.pace.services.database.pet.models.PetEntityType
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlinx.datetime.Clock
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.time.Duration.Companion.days
 
 @RunWith(AndroidJUnit4::class)
 class PetDaoTest {
@@ -47,75 +45,6 @@ class PetDaoTest {
         // then
         assertThat(result).isEqualTo(testData.sortedBy { it.priority })
     }
-
-    @Test
-    fun should_return_all_the_dogs() = runBlocking {
-        // given
-        dao.insert(testData)
-
-        // when
-        val result = dao.getByType(PetEntityType.Dog).first()
-
-        // then
-        assertThat(result).isEqualTo(
-            testData
-                .filter { it.type == PetEntityType.Dog }
-                .sortedBy { it.priority }
-        )
-    }
-
-    @Test
-    fun should_return_all_the_cats() = runBlocking {
-        // given
-        dao.insert(testData)
-
-        // when
-        val result = dao.getByType(PetEntityType.Cat).first()
-
-        // then
-        assertThat(result).isEqualTo(testData.filter { it.type == PetEntityType.Cat })
-    }
-
-    @Test
-    fun should_return_the_turtle() = runBlocking {
-        // given
-        dao.insert(testData)
-
-        // when
-        val result = dao.getByType(PetEntityType.Turtle).first()
-
-        // then
-        assertThat(result).isEqualTo(listOf(testData[4]))
-    }
-
-    @Test
-    fun should_return_younger_pets() = runBlocking {
-        // given
-        dao.insert(testData)
-
-        // when
-        val result = dao.internalGetBornAfter(35).first()
-
-        // then
-        assertThat(result).isEqualTo(listOf(testData[3], testData[4]).sortedBy { it.priority })
-    }
-
-    @Test
-    fun should_return_younger_pets_by_days_old() = runBlocking {
-        // given
-        val now = Clock.System.now()
-        val input = testData.map {
-            it.copy(dateOfBirth = (now - it.dateOfBirth.days).toEpochMilliseconds())
-        }
-        dao.insert(input)
-
-        // when
-        val result = dao.getYoungerThan(35.days).first()
-
-        // then
-        assertThat(result).isEqualTo(input.take(3).sortedBy { it.priority })
-    }
-
 }
 
 private val testData = listOf(

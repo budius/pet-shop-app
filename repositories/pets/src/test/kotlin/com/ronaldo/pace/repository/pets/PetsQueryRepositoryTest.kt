@@ -40,12 +40,7 @@ class PetsQueryRepositoryTest {
     @Test
     fun `should return turtles`() = runBlocking {
         // given
-        var count = 0
-        val getFlowOfPetsByType: GetFlowOfPetsByType = {
-            count++
-            flowOf(listOf(e2))
-        }
-        val sut = createSut(getFlowOfPetsByType = getFlowOfPetsByType)
+        val sut = createSut()
 
         // when
         sut.getPets(flowOf(PetFilters(Pet.Type.Turtle))).test {
@@ -54,29 +49,24 @@ class PetsQueryRepositoryTest {
             // then
             val expected = listOf(d2)
             assertThat(result).isEqualTo(expected)
-            assertThat(count).isEqualTo(1)
-
         }
     }
 
     @Test
     fun `should return young turtles`() = runBlocking {
+
         // given
-        val dateOfBirth = (Clock.System.now() - 30.days).toEpochMilliseconds()
-        var count = 0
-        val getFlowOfPetsByType: GetFlowOfPetsByType = {
-            count++
+        val pet2Birthday = ageInMillis(59.days)
+        val getPetsFlow: GetFlowOfPets = {
             flowOf(
                 listOf(
-                    e2,
-                    e2.copy(
-                        id = "result",
-                        dateOfBirth = dateOfBirth
-                    )
+                    e1.copy(dateOfBirth = ageInMillis(62.days)),
+                    e2.copy(dateOfBirth = pet2Birthday),
+                    e3.copy(dateOfBirth = ageInMillis(312.days))
                 )
             )
         }
-        val sut = createSut(getFlowOfPetsByType = getFlowOfPetsByType)
+        val sut = createSut(getPetsFlow = getPetsFlow)
 
         // when
         sut.getPets(flowOf(PetFilters(Pet.Type.Turtle, 60.days))).test {
@@ -84,13 +74,9 @@ class PetsQueryRepositoryTest {
 
             // then
             val expected = listOf(
-                d2.copy(
-                    id = "result",
-                    dateOfBirth = Instant.fromEpochMilliseconds(dateOfBirth)
-                )
+                d2.copy(dateOfBirth = Instant.fromEpochMilliseconds(pet2Birthday))
             )
             assertThat(result).isEqualTo(expected)
-            assertThat(count).isEqualTo(1)
 
         }
     }
@@ -99,21 +85,29 @@ class PetsQueryRepositoryTest {
     @Test
     fun `should return young pets`() = runBlocking {
         // given
-        var count = 0
-        val getFlowOfPetsMaxAgeDays: GetFlowOfPetsMaxAgeDays = {
-            count++
-            flowOf(listOf(e1, e3))
+        val pet1Birthday = ageInMillis(2.days)
+        val pet3Birthday = ageInMillis(29.days)
+        val getPetsFlow: GetFlowOfPets = {
+            flowOf(
+                listOf(
+                    e1.copy(dateOfBirth = pet1Birthday),
+                    e2.copy(dateOfBirth = ageInMillis(31.days)),
+                    e3.copy(dateOfBirth = pet3Birthday),
+                )
+            )
         }
-        val sut = createSut(getFlowOfPetsMaxAgeDays = getFlowOfPetsMaxAgeDays)
+        val sut = createSut(getPetsFlow = getPetsFlow)
 
         // when
         sut.getPets(flowOf(PetFilters(maxAge = 30.days))).test {
             val result = expectMostRecentItem()
 
             // then
-            val expected = listOf(d1, d3)
+            val expected = listOf(
+                d1.copy(dateOfBirth = Instant.fromEpochMilliseconds(pet1Birthday)),
+                d3.copy(dateOfBirth = Instant.fromEpochMilliseconds(pet3Birthday)),
+            )
             assertThat(result).isEqualTo(expected)
-            assertThat(count).isEqualTo(1)
 
         }
     }
@@ -136,12 +130,8 @@ class PetsQueryRepositoryTest {
 
 private fun createSut(
     getPetsFlow: GetFlowOfPets = { flowOf(listOf(e1, e2, e3)) },
-    getFlowOfPetsByType: GetFlowOfPetsByType = { flowOf(listOf(e2)) },
-    getFlowOfPetsMaxAgeDays: GetFlowOfPetsMaxAgeDays = { flowOf(listOf(e2, e3)) }
 ) = PetsQueryRepository(
     getPetsFlow = getPetsFlow,
-    getPetsFlowByType = getFlowOfPetsByType,
-    getPetsFlowMaxAgeDays = getFlowOfPetsMaxAgeDays
 )
 
 //region mock data

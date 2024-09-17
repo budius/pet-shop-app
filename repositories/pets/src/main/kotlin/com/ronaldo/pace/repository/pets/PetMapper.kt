@@ -7,7 +7,7 @@ import com.ronaldo.pace.repository.pets.PetTypeMapper.asEntity
 import com.ronaldo.pace.services.database.pet.models.PetEntity
 import kotlinx.datetime.Instant
 
-object PetMapper {
+internal object PetMapper {
     val PetEntity.asDomain: Pet
         get() = Pet(
             id = id,

@@ -108,6 +108,10 @@ match" and "show only dogs". I was missing some ordering from the backend so I a
 field to the network responses and feed them into the database entities to mock that
 behavior, but those mock data was created using `Random.nextFloat()`.
 
+<details>
+
+<summary>Outdated discussion and test on SQL vs Flows for query filtering</summary>
+
 On a real/bigger project a discussion would be nice to weight some pros/cons related to
 re-ordering/filtering the items via SQL statements or via operations on the `Flow<List>` in the
 repository layer. At the first commit we have a less than ideal scenario with a mixed approach.
@@ -141,6 +145,8 @@ table in memory and filtering via Flow but the speed difference is massive.
 Tests were run on a real device (Google Pixel 6) and the code for it can be found on the
 branch `repo_performance_test`. It's a somehow messy code (e.g. PetStoreDatabase had to be made
 public and not all tests were written) but it's there saved in the branch.
+
+</details>
 
 ### Data invalidation and refresh
 

@@ -4,7 +4,7 @@ import com.ronaldo.pace.domain.pets.Pet
 import com.ronaldo.pace.network.models.PetResponseType
 import com.ronaldo.pace.services.database.pet.models.PetEntityType
 
-object PetTypeMapper {
+internal object PetTypeMapper {
 
     val Pet.Type.asEntity: PetEntityType
         get() = when (this) {

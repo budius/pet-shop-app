@@ -12,11 +12,7 @@ fun petsRepositoryModule() = module {
 
 private fun Scope.providesPetsQueryRepository(): PetsQueryRepository {
     val dao: PetDao = get()
-    return PetsQueryRepository(
-        getPetsFlow = dao::getAll,
-        getPetsFlowByType = dao::getByType,
-        getPetsFlowMaxAgeDays = dao::getYoungerThan
-    )
+    return PetsQueryRepository(getPetsFlow = dao::getAll)
 }
 
 private fun Scope.providesPetsLoadRepository(): PetsLoadRepository {
