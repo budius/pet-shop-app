@@ -28,10 +28,6 @@ It all starts with a pretty standard unidirectional data flow (UDF) architecture
 
 ![](docs/app-arch-diagram.png)
 
-## Gradle modules
-
-- TODO
-
 ## Decision Records
 
 In no specific order, here I discuss a few decisions quirks, ideas implemented around the code,
