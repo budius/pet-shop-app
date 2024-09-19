@@ -60,7 +60,7 @@ internal class StoreListViewModel(
     }
 
     private suspend fun load() {
-        if (visibility.value != Content) {
+        if (visibility.value == Loading) {
             // debounce duplicate calls from the UI
             return
         }

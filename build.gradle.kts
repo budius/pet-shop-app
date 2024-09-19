@@ -75,20 +75,21 @@ val pets by tasks.registering {
                         .toInstant(ZoneOffset.UTC)
                         .toString()
 
+                val prio = Random.nextFloat()
                 add(
-                    petTemplate
+                    prio to petTemplate
                         .replace("ID", UUID.randomUUID().toString())
                         .replace("NAME", name)
                         .replace("PRICE", (1200 + Random.nextInt(8000)).toString())
                         .replace("DESC", description)
                         .replace("TYPE", petTypes.random())
                         .replace("BDAY", bDay)
-                        .replace("PRIORITY", Random.nextFloat().toString())
+                        .replace("PRIORITY", prio.toString())
 
                 )
 
             }
-        }.joinToString("\n")
+        }.sortedBy { it.first }.joinToString("\n") { it.second }
         file("jsons.txt").writeText(data)
     }
 }
