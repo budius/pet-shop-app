@@ -153,12 +153,6 @@ As it was said [by smart people again and again](https://martinfowler.com/bliki/
 
 Hence, it's out of scope for this sample app.
 
-### Pet Repository
-
-The project started as a single `PetRepository`, but as the code and tests progressed, it became
-obvious a clear separation between loading and querying the data. Hence, the split repos with
-smaller responsibilities and easier testability.
-
 ### ViewModel CoroutineScope
 
 Lately I realized that in current Android project, the view model object doesn't need to extend

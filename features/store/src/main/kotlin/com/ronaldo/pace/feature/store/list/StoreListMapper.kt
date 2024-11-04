@@ -1,7 +1,6 @@
 package com.ronaldo.pace.feature.store.list
 
 import com.ronaldo.pace.domain.pets.Pet
-import com.ronaldo.pace.domain.pets.PetFilters
 import com.ronaldo.pace.feature.common.RelativeAgeMapper
 import com.ronaldo.pace.feature.common.UiVisibility
 import com.ronaldo.pace.store.R
@@ -10,25 +9,19 @@ import kotlinx.datetime.Instant
 internal class StoreListMapper(
     private val relativeAgeMapper: (Instant) -> String = RelativeAgeMapper::map
 ) {
-    fun map(filter: PetFilters, data: List<Pet>, visible: UiVisibility): StoreListUiState {
-
-        // TODO: the filters must be on the UI
-
-        return StoreListUiState(
-            fullScreenVisibility = if (data.isEmpty()) visible else UiVisibility.Content,
-            loadMoreVisibility = if (data.isNotEmpty()) visible else UiVisibility.Content,
-            items = data.map { pet ->
-                Item(
-                    id = pet.id,
-                    line1 = pet.name,
-                    line2 = line2(pet),
-                    price = price(pet),
-                    icon = icon(pet),
-                    iconDescription = iconDescription(pet),
-                )
-            }
-        )
-    }
+    fun map(data: List<Pet>, visible: UiVisibility): StoreListUiState = StoreListUiState(
+        fullScreenVisibility = if (data.isEmpty()) visible else UiVisibility.Content,
+        loadMoreVisibility = visible,
+        items = data.map { pet ->
+            Item(
+                id = pet.id,
+                line1 = pet.name,
+                line2 = line2(pet),
+                price = price(pet),
+                icon = icon(pet),
+                iconDescription = iconDescription(pet),
+            )
+        })
 
     private fun line2(pet: Pet): String {
         return buildString {

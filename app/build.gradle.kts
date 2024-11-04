@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.koin)
+    implementation(libs.timber)
     implementation(project(":ui:theme:"))
     implementation(project(":services:network:"))
     implementation(project(":services:database:"))

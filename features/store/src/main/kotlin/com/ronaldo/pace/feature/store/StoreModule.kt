@@ -1,8 +1,7 @@
 package com.ronaldo.pace.feature.store
 
 import com.ronaldo.pace.feature.store.list.StoreListViewModel
-import com.ronaldo.pace.repository.pets.PetsLoadRepository
-import com.ronaldo.pace.repository.pets.PetsQueryRepository
+import com.ronaldo.pace.repository.pets.PetsRepository
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.scope.Scope
 import org.koin.dsl.module
@@ -12,12 +11,10 @@ fun storeFeatureModule() = module {
 }
 
 private fun Scope.provideStoreListViewModel(): StoreListViewModel {
-    val load: PetsLoadRepository = get()
-    val query: PetsQueryRepository = get()
+    val pets: PetsRepository = get()
 
     return StoreListViewModel(
-        getData = query::getPets,
-        initData = load::initData,
-        loadMore = load::loadMore
+        getData = { pets.getPets(it) },
+        loadMore = pets::loadMore
     )
 }

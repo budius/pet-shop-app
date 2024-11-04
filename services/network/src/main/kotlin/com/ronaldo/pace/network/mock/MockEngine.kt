@@ -15,7 +15,7 @@ internal val mockEngine = MockEngine { request ->
     requestCount++
     val isError = requestCount % 4 == 0 // simulate random errors
 
-    delay(1200 + Random.nextLong(800)) // simulate network
+    delay(2300 + Random.nextLong(1200)) // simulate network
 
     val path = request.url.encodedPath
     val response = responses[path]

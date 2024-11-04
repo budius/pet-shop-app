@@ -11,6 +11,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines)
     implementation(libs.kotlinx.datetime)
     implementation(libs.koin)
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     testImplementation(libs.truth)

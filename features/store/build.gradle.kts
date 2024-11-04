@@ -14,6 +14,8 @@ dependencies {
     implementation(project(":repositories:pets:"))
 
     implementation(libs.kotlinx.datetime)
+    implementation(libs.koin)
+    implementation(libs.timber)
 
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)

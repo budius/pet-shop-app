@@ -15,4 +15,7 @@ abstract class PetDao {
     @Query("SELECT * FROM pets ORDER BY priority ASC")
     abstract fun getAll(): Flow<List<PetEntity>>
 
+    @Query("SELECT COUNT(*) FROM pets")
+    abstract suspend fun getPetCount(): Long
+
 }

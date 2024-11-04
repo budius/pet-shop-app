@@ -8,7 +8,7 @@ import io.ktor.client.request.get
 // TODO: use kebab-krafter to auto-generate a rest client
 fun interface GetPets {
 
-    suspend operator fun invoke(index: Int): Result<PetsResponse>
+    suspend operator fun invoke(index: Long): Result<PetsResponse>
 
     companion object Factory {
         fun build(client: HttpClient): GetPets {

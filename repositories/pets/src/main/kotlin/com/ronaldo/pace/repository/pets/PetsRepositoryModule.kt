@@ -7,16 +7,15 @@ import org.koin.dsl.module
 
 fun petsRepositoryModule() = module {
     single { providesPetsQueryRepository() }
-    single { providesPetsLoadRepository() }
 }
 
-private fun Scope.providesPetsQueryRepository(): PetsQueryRepository {
-    val dao: PetDao = get()
-    return PetsQueryRepository(getPetsFlow = dao::getAll)
-}
-
-private fun Scope.providesPetsLoadRepository(): PetsLoadRepository {
+private fun Scope.providesPetsQueryRepository(): PetsRepository {
     val dao: PetDao = get()
     val rest: GetPets = get()
-    return PetsLoadRepository(rest, dao::insert, dao::getAll)
+    return PetsRepository(
+        getPetsEntityFlow = dao::getAll,
+        addPetsEntity = dao::insert,
+        countPetsEntity = dao::getPetCount,
+        getPetsApi = rest
+    )
 }

@@ -2,19 +2,16 @@ package com.ronaldo.pace.feature.store.list
 
 import com.google.common.truth.Truth.assertThat
 import com.ronaldo.pace.domain.pets.Pet
-import com.ronaldo.pace.domain.pets.PetFilters
 import com.ronaldo.pace.feature.common.UiVisibility
 import com.ronaldo.pace.store.R
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import org.junit.Before
-
 import org.junit.Test
 import kotlin.time.Duration.Companion.days
 
 class StoreListMapperTest {
 
-    private var filter = PetFilters.empty
     private var data = listOf<Pet>()
     private var visible = UiVisibility.Content
     private val pet = Pet(
@@ -28,7 +25,6 @@ class StoreListMapperTest {
 
     @Before
     fun before() {
-        filter = PetFilters.empty
         visible = UiVisibility.Content
         data = listOf(pet)
     }
@@ -225,7 +221,7 @@ class StoreListMapperTest {
         )
     }
 
-    private fun testInputs() = StoreListMapper { "age" }.map(filter, data, visible)
+    private fun testInputs() = StoreListMapper { "age" }.map(data, visible)
 }
 
 private val Int.daysOld: Instant
