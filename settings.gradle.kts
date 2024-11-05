@@ -11,6 +11,20 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+plugins {
+    // See https://jmfayard.github.io/refreshVersions
+    id("de.fayard.refreshVersions") version "0.60.5"
+}
+
+refreshVersions {
+    rejectVersionIf {
+        @Suppress("UnstableApiUsage")
+        candidate.stabilityLevel != de.fayard.refreshVersions.core.StabilityLevel.Stable
+    }
+}
+
+@Suppress("UnstableApiUsage")
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
