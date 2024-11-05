@@ -3,6 +3,13 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+android {
+    lint {
+        disable += "UnsafeOptInUsageWarning"
+        disable += "UnsafeOptInUsageError"
+    }
+}
+
 dependencies {
 
     implementation(libs.ktor.client)
