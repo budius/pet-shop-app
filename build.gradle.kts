@@ -8,6 +8,14 @@ import kotlin.random.Random
 plugins {
     // Using gradle conventions instead
     alias(libs.plugins.ktLint)
+    id("org.jetbrains.kotlinx.kover")
+}
+
+dependencies {
+    subprojects.forEach { subproject ->
+        // kover(subproject)
+        kover(subproject)
+    }
 }
 
 // here are some very simple scripts that used to transform the list extracted from wikipedia,
@@ -81,14 +89,14 @@ val pets by tasks.registering {
                     val prio = Random.nextFloat()
                     add(
                         prio to
-                            petTemplate
-                                .replace("ID", UUID.randomUUID().toString())
-                                .replace("NAME", name)
-                                .replace("PRICE", (1200 + Random.nextInt(8000)).toString())
-                                .replace("DESC", description)
-                                .replace("TYPE", petTypes.random())
-                                .replace("BDAY", bDay)
-                                .replace("PRIORITY", prio.toString()),
+                                petTemplate
+                                    .replace("ID", UUID.randomUUID().toString())
+                                    .replace("NAME", name)
+                                    .replace("PRICE", (1200 + Random.nextInt(8000)).toString())
+                                    .replace("DESC", description)
+                                    .replace("TYPE", petTypes.random())
+                                    .replace("BDAY", bDay)
+                                    .replace("PRIORITY", prio.toString()),
                     )
                 }
             }.sortedBy { it.first }.joinToString("\n") { it.second }

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 android {
@@ -29,5 +30,20 @@ android {
     }
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+}
+
+kover {
+    reports {
+        filters {
+            includes {
+                classes(
+                    "*.*Filter",
+                    "*.*Mapper",
+                    "*.*Repository",
+                    "*.*ViewModel",
+                )
+            }
+        }
     }
 }

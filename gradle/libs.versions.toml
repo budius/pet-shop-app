@@ -2,7 +2,7 @@
 
 [bundles]
 
-convention = ["convention-android-application", "convention-android-library", "convention-kotlin", "convention-compose"]
+convention = ["convention-android-application", "convention-android-library", "convention-kotlin", "convention-compose", "convention-kover"]
 compose = ["androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-material3"]
 feature = [
     "kotlinx-coroutines",
@@ -26,6 +26,7 @@ compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 ktLint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktLint" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 
 [versions]
 
@@ -56,6 +57,7 @@ runner = "1.6.2"
 turbine = "1.2.0"
 timber = "5.0.1"
 ktLint = "12.1.1"
+kover = "0.8.3"
 
 [libraries]
 
@@ -103,6 +105,7 @@ convention-android-application = { group = "com.android.application", name = "co
 convention-android-library = { group = "com.android.library", name = "com.android.library.gradle.plugin", version.ref = "agp" }
 convention-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 convention-compose = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+convention-kover = { group = "org.jetbrains.kotlinx", name = "kover-gradle-plugin", version.ref = "kover" }
 
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
